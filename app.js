@@ -1,4 +1,5 @@
-// const { inquirerMenu } = require('./helpers/inquirer');
+const { inquirerMenu } = require('./helpers/inquirer');
+
 require('colors');
 
 
@@ -14,7 +15,7 @@ const main = async () => {
 
     
     do{
-        opt = await menu
+        opt = await inquirerMenu();
         console.log({opt});
         
 
