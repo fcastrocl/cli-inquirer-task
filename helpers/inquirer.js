@@ -50,6 +50,8 @@ const inquirerMenu = async () => {
     const { opcion } = await inquirer.prompt(preguntas);
 
     return opcion;
+
+
 }
 
 const pausa = async () => {
@@ -73,6 +75,7 @@ const leerInput = async (message) => {
     const question = [
 
         {
+
             type: 'input',
             name: 'desc',
             message,
@@ -88,20 +91,82 @@ const leerInput = async (message) => {
     const { desc } = await inquirer.prompt(question);
     return desc;
 
+
 }
 
 
-const listadoTareasBorrar = async( tareas = [] ) => {
+const listadoTareasBorrar = async (tareas = []) => {
 
-    const choices = tareas.map( (tarea, i) => {
+    const choices = tareas.map((tarea, i) => {
 
-        const idx = `${i + 1}.`.green;
+
+        const idx = `${i + 1}.-`.rainbow;
 
         return {
             value: tarea.id,
-            name:  `${ idx } ${ tarea.desc }`
+            name: `${idx} ${tarea.desc}`
         }
     });
+
+    choices.unshift({
+        value: '0',
+        name: '0.- '.rainbow + 'Cancelar'
+    });
+
+    const preguntas = [
+        {
+            type: 'list',
+            name: 'id',
+            message: 'Borrar',
+            choices
+
+        }
+    ]
+
+    const { id } = await inquirer.prompt(preguntas);
+    return id;
+}
+
+
+const confirmar = async (message) => {
+
+    const question = [
+        {
+            type: 'confirm',
+            name: 'ok',
+            message
+        }
+    ];
+
+    const { ok } = await inquirer.prompt(question);
+    return ok;
+}
+
+
+const mostrarListadoChecklist = async (tareas = []) => {
+
+    const choices = tareas.map((tarea, i) => {
+
+        const idx = `${i + 1}.-`.rainbow;
+
+        return {
+            value: tarea.id,
+            name: `${idx} ${tarea.desc}`,
+            checked: ( tarea.completadoEn ) ? true : false
+        }
+    });
+
+    const preguntas = [
+        {
+            type: 'checkbox',
+            name: 'ids',
+            message: 'Seleccione',
+            choices
+
+        }
+    ]
+    const { ids } = await inquirer.prompt(preguntas);
+    return ids;
 }
 
 
@@ -110,6 +175,8 @@ module.exports = {
     inquirerMenu,
     pausa,
     leerInput,
-    listadoTareasBorrar
+    listadoTareasBorrar,
+    confirmar,
+    mostrarListadoChecklist
 
 }
